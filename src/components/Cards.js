@@ -1,76 +1,41 @@
-import React, { useState } from 'react'
+import { getDocs } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react'
+import {  ThreeDots } from 'react-loader-spinner';
 import ReactStars from 'react-stars'
+import { movieRef } from '../firebase/firebase';
 const Cards = () => {
-    const [data, setData] = useState([
-        {
-            name: "Wanda Vision",
-            year: 2019,
-            rating: 5,
-            img: "https://i.etsystatic.com/18242346/r/il/fd61f8/2933715225/il_570xN.2933715225_a913.jpg",
-        },
-        {
-            name: "Pathan",
-            year: 2019,
-            rating: 4.5,
-            img: "https://m.media-amazon.com/images/I/91uzbH0vmcL.jpg",
-        },
-        {
-            name: "Avengers EndGame",
-            year: 2019,
-            rating: 3.5,
-            img: "https://www.movieposters.com/cdn/shop/products/108b520c55e3c9760f77a06110d6a73b_240x360_crop_center.progressive.jpg?v=1573652543",
-        },
-        {
-            name: "Wanda Vision",
-            year: 2019,
-            rating: 2,
-            img: "https://i.etsystatic.com/18242346/r/il/fd61f8/2933715225/il_570xN.2933715225_a913.jpg",
-        },
-        {
-            name: "Wanda Vision",
-            year: 2019,
-            rating: 4,
-            img: "https://i.etsystatic.com/18242346/r/il/fd61f8/2933715225/il_570xN.2933715225_a913.jpg",
-        },
-        {
-            name: "Wanda Vision",
-            year: 2019,
-            rating: 3,
-            img: "https://i.etsystatic.com/18242346/r/il/fd61f8/2933715225/il_570xN.2933715225_a913.jpg",
-        },
-        {
-            name: "Wanda Vision",
-            year: 2019,
-            rating: 5,
-            img: "https://i.etsystatic.com/18242346/r/il/fd61f8/2933715225/il_570xN.2933715225_a913.jpg",
-        },
-        {
-            name: "Wanda Vision",
-            year: 2019,
-            rating: 5,
-            img: "https://i.etsystatic.com/18242346/r/il/fd61f8/2933715225/il_570xN.2933715225_a913.jpg",
-        },
-        {
-            name: "Wanda Vision",
-            year: 2019,
-            rating: 5,
-            img: "https://i.etsystatic.com/18242346/r/il/fd61f8/2933715225/il_570xN.2933715225_a913.jpg",
-        }
-    ])
-    return (
-        <div className='flex flex-wrap justify-between p-5 mt-2'>
+    const [data, setData] = useState([]);
+    const [loading , setLoading] =useState(true);
+    useEffect(()=>{
+        async function getData(){
+            setLoading(true);
+            const data=await getDocs(movieRef)
+            data.forEach((doc)=>{
+                setData((prv)=>[...prv, doc.data()])
+            })
 
-            {
+            
+            setLoading(false)
+
+        }
+        getData();
+    },[])
+    return (
+        <div className='flex flex-wrap justify-between px-3 mt-2'>
+           { loading?<div className='w-full flex justify-center items-center h-96'><ThreeDots height={40} color='white'/></div>:
+
+            
                 data.map((index, key) => {
                     return (
                         <div key={key} className=' card shadow-lg p-2 hover:-translate-y-2 cursor-pointer  font-medium  mt-4 transition-all duration-500'>
-                            <img alt='Move Poster' className='h-72' src={index.img}></img>
-                            <h1><span className='text-gray-500'>Name: </span>{index.name}</h1>
+                            <img alt='Move Poster' className='h-60 md:h-72' src={index.image}></img>
+                            <div><h1 ><span className='text-gray-500'>Name: </span>{index.title}</h1></div>
+                            
                             <h1 className='flex items-center'>
                                 <span className='text-gray-500'>Rating:
                                 </span>
                                 <span><ReactStars
-                                    value={index.rating}
+                                    value={5}
                                     edit={false}
                                     size={20} />
                                 </span>
@@ -79,9 +44,9 @@ const Cards = () => {
                         </div>
                     )
                 })
-            }
+            
 
-
+        }
 
         </div>
     )
