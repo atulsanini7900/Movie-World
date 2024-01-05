@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import {  ThreeDots } from 'react-loader-spinner';
 import ReactStars from 'react-stars'
 import { movieRef } from '../firebase/firebase';
+import { Link } from 'react-router-dom';
+
 const Cards = () => {
     const [data, setData] = useState([]);
     const [loading , setLoading] =useState(true);
@@ -11,7 +13,7 @@ const Cards = () => {
             setLoading(true);
             const data=await getDocs(movieRef)
             data.forEach((doc)=>{
-                setData((prv)=>[...prv, doc.data()])
+                setData((prv)=>[...prv, {...doc.data(), id:doc.id}])
             })
 
             
@@ -27,7 +29,8 @@ const Cards = () => {
             
                 data.map((index, key) => {
                     return (
-                        <div key={key} className=' card shadow-lg p-2 hover:-translate-y-2 cursor-pointer  font-medium  mt-4 transition-all duration-500'>
+                        <Link to={`/detail/${index.id}`}>
+                            <div key={key} className=' card shadow-lg p-2 hover:-translate-y-2 cursor-pointer  font-medium  mt-4 transition-all duration-500'>
                             <img alt='Move Poster' className='h-60 md:h-72' src={index.image}></img>
                             <div><h1 ><span className='text-gray-500'>Name: </span>{index.title}</h1></div>
                             
@@ -42,6 +45,7 @@ const Cards = () => {
                             </h1>
                             <h1><span className='text-gray-500'>Year: </span>{index.year}</h1>
                         </div>
+                        </Link>
                     )
                 })
             

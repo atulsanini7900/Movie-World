@@ -31,7 +31,14 @@ const AddMovie=()=>{
         buttons: false,
         timer:3000
       })
+
     }
+    setForm({
+      title:"",
+        year:"",
+        description:"",
+        image:"",
+    })
     setLoading(false)
 
     }
