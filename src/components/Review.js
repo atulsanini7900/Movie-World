@@ -12,41 +12,43 @@ const Review = ({ id, prevRating, userRated }) => {
     const [reviewLoading, setReviewLoading] = useState(false)
     const [thought, setThought] = useState("");
     const [data, setData] = useState([]);
-const useAppState=useContext(Appstate);
-const navigate=useNavigate();
+    const useAppState = useContext(Appstate);
+    const [newAdded, setNewAdded]=useState(0);
+    const navigate = useNavigate();
     const sendReview = async () => {
         setLoading(true)
         try {
-            if(useAppState.login){
-
-            
-            await addDoc(reviewsRef, {
-                movieid: id,
-                name: useAppState.userName,
-                rating: rating,
-                thought: thought,
-                timestamp: new Date().getTime()
-            })
-            const ref = doc(db, "movies", id);
-            await updateDoc(ref, {
-                rating: prevRating + rating,
-                rated: userRated + 1,
-            })
-
-            setRating(0);
-            setThought("");
-            swal({
-                title: "Your Review Send",
-                icon: "success",
-                buttons: false,
-                timer: 3000
-            })
+            if (useAppState.login) {
 
 
-        }else{
-            navigate('/login');
-        }
-           
+                await addDoc(reviewsRef, {
+                    movieid: id,
+                    name: useAppState.userName,
+                    rating: rating,
+                    thought: thought,
+                    timestamp: new Date().getTime()
+                })
+                const ref = doc(db, "movies", id);
+                await updateDoc(ref, {
+                    rating: prevRating + rating,
+                    rated: userRated + 1,
+                })
+
+                setRating(0);
+                setThought("");
+                setNewAdded(newAdded+1);
+                swal({
+                    title: "Your Review Send",
+                    icon: "success",
+                    buttons: false,
+                    timer: 3000
+                })
+
+
+            } else {
+                navigate('/login');
+            }
+
 
         }
 
@@ -64,6 +66,7 @@ const navigate=useNavigate();
     useEffect(() => {
         async function getData() {
             setReviewLoading(true);
+            setData([]);
             let quer = query(reviewsRef, where('movieid', '==', id))
             const querySanpshot = await getDocs(quer);
 
@@ -76,7 +79,7 @@ const navigate=useNavigate();
 
         }
         getData();
-    }, [id])
+    }, [newAdded])
     return (
         <div className='mt-4 border-t-2 border-gray-700 w-full'>
             <ReactStars
