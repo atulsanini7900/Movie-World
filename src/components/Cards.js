@@ -30,15 +30,15 @@ const Cards = () => {
                 data.map((index, key) => {
                     return (
                         <Link to={`/detail/${index.id}`}>
-                            <div key={key} className=' card shadow-lg p-2 hover:-translate-y-2 cursor-pointer  font-medium  mt-4 transition-all duration-500'>
+                            <div key={key} className=' card shadow-lg p-2 hover:-translate-y-2 cursor-pointer font-medium  mt-4 transition-all duration-500  '>
                             <img alt='Move Poster' className='h-60 md:h-72' src={index.image}></img>
-                            <div><h1 ><span className='text-gray-500'>Name: </span>{index.title}</h1></div>
+                            <div><h1 ><span className='text-gray-500'>Name: </span> {index.title}</h1></div>
                             
                             <h1 className='flex items-center'>
                                 <span className='text-gray-500'>Rating:
                                 </span>
                                 <span><ReactStars
-                                    value={5}
+                                    value={index.rating/index.rated}
                                     edit={false}
                                     size={20} />
                                 </span>

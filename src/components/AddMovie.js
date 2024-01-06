@@ -9,6 +9,8 @@ const AddMovie=()=>{
         year:"",
         description:"",
         image:"",
+        rating:0,
+        rated:0,
     })
 
     const [loading, setLoading]=useState(false);

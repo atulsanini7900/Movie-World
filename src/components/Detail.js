@@ -14,6 +14,8 @@ const Detail = () => {
         year: "",
         image: "",
         description: "",
+        rating:0,
+        rated:0,
     })
     useEffect(() => {
         async function getData() {
@@ -26,7 +28,7 @@ const Detail = () => {
             setLoading(false)
         }
         getData();
-    }, [id])
+    },[id])
     return (
         <div className='p-4 flex flex-col items-center md:items-start md:flex-row w-full justify-center'>
             { loadding ? <div className='h-96 flex w-full justify-center items-center'><ThreeCircles height={30} color='white'/></div> :
@@ -37,13 +39,13 @@ const Detail = () => {
                 <p className='mt-2 '>
                     <ReactStars
                         count={5}
-
+                        value={data.rating/data.rated}
                         size={24}
                         isHalf={true} />
                 </p>
 
                 <p className='mt-3'>{data.description}</p>
-                <Review/>
+                <Review id={id}  prevRating={data.rating} userRated={data.rated}/>
             </div>
             </>}
 
