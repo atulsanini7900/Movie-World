@@ -1,22 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ReactStars from 'react-stars'
 import { reviewsRef, db } from '../firebase/firebase';
 import { addDoc, doc, updateDoc, query, where, getDocs } from 'firebase/firestore';
 import { TailSpin, ThreeDots } from 'react-loader-spinner';
 import swal from 'sweetalert';
+import { Appstate } from '../App';
+import { useNavigate } from 'react-router-dom';
 const Review = ({ id, prevRating, userRated }) => {
     const [rating, setRating] = useState(0);
     const [loading, setLoading] = useState(false);
     const [reviewLoading, setReviewLoading] = useState(false)
     const [thought, setThought] = useState("");
     const [data, setData] = useState([]);
-
+const useAppState=useContext(Appstate);
+const navigate=useNavigate();
     const sendReview = async () => {
         setLoading(true)
         try {
+            if(useAppState.login){
+
+            
             await addDoc(reviewsRef, {
                 movieid: id,
-                name: "nikunj",
+                name: useAppState.userName,
                 rating: rating,
                 thought: thought,
                 timestamp: new Date().getTime()
@@ -37,7 +43,9 @@ const Review = ({ id, prevRating, userRated }) => {
             })
 
 
-
+        }else{
+            navigate('/login');
+        }
            
 
         }

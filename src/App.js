@@ -11,12 +11,12 @@ import Login from "./components/Login";
 
 
 
-const AppState=createContext();
+const Appstate=createContext();
 function App() {
   const [login, setLogin]=useState(false);
   const [userName, setUserName]=useState("");
   return (
-    <AppState.Provider value={{Login, setLogin,userName, setUserName}}>
+    <Appstate.Provider value={{login, setLogin,userName, setUserName}}>
     <>
       <Header/>
       <Routes>
@@ -33,10 +33,10 @@ function App() {
       </Routes>
       
     </>
-    </AppState.Provider>
+    </Appstate.Provider>
     
   );
 }
 
 export default App;
-export  {AppState};
+export  {Appstate};

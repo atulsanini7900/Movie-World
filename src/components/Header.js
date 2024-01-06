@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom';
-import { AppState } from '../App';
+import { Appstate } from '../App';
 const Header = () => {
-  const useAppState = useContext(AppState);
+  const useAppState = useContext(Appstate);
   return (
     <div className='text-2xl flex justify-between italic font-bold p-3 border-b-2 border-gray-500'>
       <Link to={"/"}><span><span className="text-red-500 ">Movie</span>World</span></Link>
